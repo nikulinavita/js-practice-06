@@ -25,7 +25,7 @@ function updateCounter() {
 function toggleEmptyMessage() {
   const cards = servicesContainer.querySelectorAll('.service-card');
   if (cards.length === 0) {
-    //style.display напрямую меняет CSS-свойство элемента.
+    //ПОЧЕМУ? style.display напрямую меняет CSS-свойство элемента.
     emptyMsg.style.display = 'block';
   } else {
     emptyMsg.style.display = 'none';
@@ -34,7 +34,7 @@ function toggleEmptyMessage() {
 
 function validateInput(title) {
   if (title.trim().length < 3) {
-    //Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
+    //ПОЧЕМУ? Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
     validationMsg.textContent = 'Название должно содержать не менее 3 символов';
     return false;
   } else {
@@ -67,7 +67,7 @@ function createCardElement(cardData) {
   favoriteBtn.textContent = '☆ В избранное';
 
   favoriteBtn.addEventListener('click', () => {
-    // Проверяем: если кнопка сейчас серая
+    
     if (favoriteBtn.classList.contains('btn-secondary')) {
       favoriteBtn.classList.remove('btn-secondary'); 
       favoriteBtn.textContent = '★ Избранное';     
