@@ -25,7 +25,7 @@ function updateCounter() {
 function toggleEmptyMessage() {
   const cards = servicesContainer.querySelectorAll('.service-card');
   if (cards.length === 0) {
-    //style.display напрямую меняет CSS-свойство элемента.
+    //ПОЧЕМУ? style.display напрямую меняет CSS-свойство элемента.
     emptyMsg.style.display = 'block';
   } else {
     emptyMsg.style.display = 'none';
@@ -34,7 +34,7 @@ function toggleEmptyMessage() {
 
 function validateInput(title) {
   if (title.trim().length < 3) {
-    //Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
+    //ПОЧЕМУ? Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
     validationMsg.textContent = 'Название должно содержать не менее 3 символов';
     return false;
   } else {
@@ -44,15 +44,15 @@ function validateInput(title) {
 }
 
 function createCardElement(cardData) {
-  // // ПОЧЕМУ? createElement безопасно создает новый DOM-узел
+  //ПОЧЕМУ? createElement безопасно создает новый DOM-узел
   const card = document.createElement('div');
-  // // ПОЧЕМУ? classList.add удобен для безопасного добавления классов
+  //ПОЧЕМУ? classList.add удобен для безопасного добавления классов
   card.classList.add('service-card');
   card.dataset.id = cardData.id; 
   card.dataset.category = cardData.category;
 
   const titleEl = document.createElement('h3');
-  // // ПОЧЕМУ? textContent безопасен для вставки текста
+  //ПОЧЕМУ? textContent безопасен для вставки текста
   titleEl.textContent = cardData.title;
 
   const categoryEl = document.createElement('span');
@@ -87,7 +87,7 @@ function createCardElement(cardData) {
     if (!confirm('Точно удалить карточку?')) {
       return; 
     }
-    // ПОЧЕМУ? Метод remove() полностью удаляет этот DOM-узел со страницы
+    //ПОЧЕМУ? Метод remove() полностью удаляет этот DOM-узел со страницы
     card.remove();
     updateCounter();
     toggleEmptyMessage();
@@ -96,7 +96,7 @@ function createCardElement(cardData) {
   deleteBtn.textContent = 'Удалить';
 
   actionsEl.append(favoriteBtn, deleteBtn);
-  // ПОЧЕМУ? append позволяет вставить несколько элементов за один вызов
+  //ПОЧЕМУ? append позволяет вставить несколько элементов за один вызов
   card.append(titleEl, categoryEl, actionsEl);
   return card;    
 }
@@ -113,7 +113,7 @@ addBtn.addEventListener('click', () => {
     category: categoryValue
   };
   const cardElement = createCardElement(cardData);
-  // ПОЧЕМУ? appendChild безопасно вставляет созданную карточку в конец списка.
+  //ПОЧЕМУ? appendChild безопасно вставляет созданную карточку в конец списка.
   servicesContainer.appendChild(cardElement);
   serviceNameInput.value = '';
   updateCounter();
@@ -128,7 +128,7 @@ clearFormBtn.addEventListener('click', () => {
 });
 
 toggleThemeBtn.addEventListener('click', () => {
-  // ПОЧЕМУ? toggle позволяет переключать класс без лишних условий
+  //ПОЧЕМУ? toggle позволяет переключать класс без лишних условий
   document.body.classList.toggle('dark-mode');
 });
 
@@ -136,7 +136,7 @@ highlightDevBtn.addEventListener('click', () => {
   const allCards = servicesContainer.querySelectorAll('.service-card');
   allCards.forEach(card => {
     if (card.dataset.category === 'dev') {
-      // ПОЧЕМУ? classList.add добавляет класс подсветки, не удаляя старые классы
+      //ПОЧЕМУ? classList.add добавляет класс подсветки, не удаляя старые классы
       card.classList.add('highlight');
     }
   });
@@ -157,7 +157,7 @@ showFavoritesBtn.addEventListener('click', () => {
 showAllBtn.addEventListener('click', () => {
   const allCards = servicesContainer.querySelectorAll('.service-card');
   allCards.forEach(card => {
-    // ПОЧЕМУ? classList.remove('hidden') показывает все карточки, не удаляя их из DOM
+    //ПОЧЕМУ? classList.remove('hidden') показывает все карточки, не удаляя их из DOM
     card.classList.remove('hidden');
   });
 });
