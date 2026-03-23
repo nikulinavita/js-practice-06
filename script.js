@@ -25,7 +25,7 @@ function updateCounter() {
 function toggleEmptyMessage() {
   const cards = servicesContainer.querySelectorAll('.service-card');
   if (cards.length === 0) {
-    //ПОЧЕМУ? style.display напрямую меняет CSS-свойство элемента.
+    //style.display напрямую меняет CSS-свойство элемента.
     emptyMsg.style.display = 'block';
   } else {
     emptyMsg.style.display = 'none';
@@ -34,7 +34,7 @@ function toggleEmptyMessage() {
 
 function validateInput(title) {
   if (title.trim().length < 3) {
-    //ПОЧЕМУ? Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
+    //Использую textContent для защиты от XSS-атак (чтобы пользователь не смог внедрить вредоносный код)
     validationMsg.textContent = 'Название должно содержать не менее 3 символов';
     return false;
   } else {
@@ -63,21 +63,23 @@ function createCardElement(cardData) {
   actionsEl.classList.add('card-actions');
 
   const favoriteBtn = document.createElement('button');
-  favoriteBtn.classList.add('btn-secondary'); 
+  favoriteBtn.classList.add('btn-secondary');
   favoriteBtn.textContent = '☆ В избранное';
 
+  card.dataset.isFavorite = 'false';
+
   favoriteBtn.addEventListener('click', () => {
-    
-    if (favoriteBtn.classList.contains('btn-secondary')) {
-      favoriteBtn.classList.remove('btn-secondary'); 
+
+    if (card.dataset.isFavorite === 'false') {
+      card.dataset.isFavorite = 'true';              
+      favoriteBtn.classList.remove('btn-secondary');
       favoriteBtn.textContent = '★ Избранное';     
-      
     } else {
-      
-      favoriteBtn.classList.add('btn-secondary');   
+     
+      card.dataset.isFavorite = 'false';            
+      favoriteBtn.classList.add('btn-secondary');    
       favoriteBtn.textContent = '☆ В избранное';     
     }
-      
   });
   
   const deleteBtn = document.createElement('button');
@@ -142,15 +144,16 @@ highlightDevBtn.addEventListener('click', () => {
 
 showFavoritesBtn.addEventListener('click', () => {
   const allCards = servicesContainer.querySelectorAll('.service-card');
+  
   allCards.forEach(card => {
-    if (!card.classList.contains('highlight')) {
-      // ПОЧЕМУ? classList.add('hidden') скрывает карточки, не удаляя их из DOM
-      card.classList.add('hidden');
-    } else {
+    if (card.dataset.isFavorite === 'true') {
       card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');    
     } 
+  });
 });
-});
+
 showAllBtn.addEventListener('click', () => {
   const allCards = servicesContainer.querySelectorAll('.service-card');
   allCards.forEach(card => {
